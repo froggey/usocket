@@ -75,13 +75,7 @@
   (declare (ignore wait-list waiter)))
 
 (defun wait-for-input-internal (wait-list &key timeout)
-  (with-mapped-conditions ()
-    (let ((waiters (wait-list-waiters wait-list)))
-      (dolist (waiter waiters)
-        (setf (state waiter)
-              (if (mezzano.network.tcp::refill-tcp-packet-buffer (socket waiter))
-                  :read
-                  nil))))))
+  (declare (ignore wait-list timeout)))
 
 (defmethod socket-close ((usocket stream-usocket))
   (with-mapped-conditions ()
