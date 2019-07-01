@@ -83,7 +83,7 @@
 
 (defmethod socket-close ((usocket stream-server-usocket))
   (with-mapped-conditions ()
-    (mezzano.network.tcp:close-tcp-listener (socket usocket))))
+    (close (socket usocket))))
 
 (defmethod socket-accept ((usocket stream-server-usocket) &key element-type)
   (declare (ignore element-type))
@@ -97,21 +97,19 @@
 (defmethod get-peer-name ((usocket stream-usocket)))
 
 (defmethod get-local-address ((usocket usocket))
-  (mezzano.network.ip::format-ipv4-address
-   nil
-   (mezzano.network.ip::ipv4-address-address
-    (mezzano.network.tcp::tcp-connection-local-ip
-     (mezzano.network.tcp::tcp-stream-connection (socket usocket))))))
+  (mezzano.network.ip:ipv4-address-to-string
+   (mezzano.network.tcp:tcp-connection-local-ip
+    (mezzano.network.tcp:tcp-stream-connection (socket usocket)))))
 
 (defmethod get-local-port ((usocket usocket))
-  (mezzano.network.tcp::tcp-connection-local-port (mezzano.network.tcp::tcp-stream-connection (socket usocket))))
+  (mezzano.network.tcp:tcp-connection-local-port
+   (mezzano.network.tcp:tcp-stream-connection (socket usocket))))
 
 (defmethod get-peer-address ((usocket stream-usocket))
-  (mezzano.network.ip::format-ipv4-address
-   nil
-   (mezzano.network.ip::ipv4-address-address
-    (mezzano.network.tcp::tcp-connection-remote-ip
-     (mezzano.network.tcp::tcp-stream-connection (socket usocket))))))
+  (mezzano.network.ip:ipv4-address-to-string
+   (mezzano.network.tcp:tcp-connection-remote-ip
+    (mezzano.network.tcp:tcp-stream-connection (socket usocket)))))
 
 (defmethod get-peer-port ((usocket stream-usocket))
-  (mezzano.network.tcp::tcp-connection-remote-port (mezzano.network.tcp::tcp-stream-connection (socket usocket))))
+  (mezzano.network.tcp:tcp-connection-remote-port
+   (mezzano.network.tcp:tcp-stream-connection (socket usocket))))
