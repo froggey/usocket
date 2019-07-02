@@ -83,7 +83,7 @@
 
 (defmethod socket-close ((usocket stream-server-usocket))
   (with-mapped-conditions ()
-    (close (socket usocket))))
+    (mezzano.network.tcp:close-tcp-listener (socket usocket))))
 
 (defmethod socket-accept ((usocket stream-server-usocket) &key element-type)
   (declare (ignore element-type))
